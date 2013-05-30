@@ -10,6 +10,8 @@ Slides were originally created using the fantastic http://slid.es service
 and Hakim's awesome [reveal.js](http://lab.hakim.se/reveal-js/),
 then exported into standalone HTML file.
 
+Online version at https://slid.es/mloskot/soci/
+
 ## Author
 
 [Mateusz Loskot](http://mateusz.loskot.net)
