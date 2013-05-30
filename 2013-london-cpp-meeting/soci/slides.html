@@ -1,0 +1,1438 @@
+<div class="slides">
+    <section>
+        <h3>
+            <br>
+            </h3>
+<h3>introduction to a simple&nbsp;<br>C++ database access library</h3>
+<h1 class="fragment" data-fragment-index="0">
+<span style="font-size: 135.72px;">SOCI</span>
+            <br>
+</h1>
+<div>
+            <br>
+        </div>
+<div>
+        <br>
+    </div>
+<p>
+    <b>London C++ Meetup</b>
+</p>
+<div>May 2013</div>
+<p>
+<a href="http://mateusz.loskot.net">Mateusz Loskot</a> | <a href="http://twitter.com/mloskot">@mloskot</a>
+</p>
+<p>
+<font style="font-size: 24px;">Slides licensed under the&nbsp;<a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution License</a>
+</font>
+</p>
+</section>
+<section>
+    <h2>
+        <a href="http://mateusz.loskot.net">Mateusz.Loskot.NET</a>
+    </h2>
+<p data-fragment-index="0" class="fragment">
+    <font style="font-size: 54px;">
+        <b>C++ hacker, geospatial developer</b>
+    </font>
+</p>
+<p data-fragment-index="1" class="fragment">
+<font style="font-size: 54px;">
+    <br>
+    <b>Open Source developer</b>
+</font>
+</p>
+<p data-fragment-index="1" class="fragment">
+<font style="font-size: 42px;">Boost.Geometry, GDAL, libLAS, PostGIS, SOCI, ...</font>
+</p>
+<p data-fragment-index="2" class="fragment">
+<font style="font-size: 54px;">
+    <br>
+    <b>Charter Member <a href="http://osgeo.org">@OSGeo</a>
+</b>
+</font>
+</p>
+<p class="fragment" data-fragment-index="4">
+<b style="font-size: 54px;">Senior Programmer <a href="twitter.com/Cadcorp">@Cadcorp</a>
+</b>
+<br>
+</p>
+</section>
+<section>
+    <section>
+        <h2>SOCI</h2>
+<div>
+        <br>
+    </div>
+<div class="fragment" data-fragment-index="0">
+    <font style="font-size: 42px;">It's a library&nbsp;</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="1">
+<font style="font-size: 42px;">Written in standard C++ (C++03)</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="2">
+<font style="font-size: 42px;">Database access interface</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="3">
+<font style="font-size: 42px;">Boost Software License (<a href="http://opensource.org/licenses/BSL-1.0">BSL 1.0</a>)</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="4">
+<font style="font-size: 42px;">
+<span style="font-style: normal; font-variant: normal;">
+    <b>SO<font color="#ff3800">C</font>I </b>(IPA: [ˈsokɪ])</span>
+    <span style="font-style: normal; font-variant: normal;">&nbsp;</span>
+</font>
+<br>
+</div>
+</section>
+<section>
+    <p>
+<a href="http://en.wikipedia.org/wiki/Sochi" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">Sochi</a>
+<span style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">&nbsp;(IPA: [ˈsotɕɪ])</span>
+<br>
+</p>
+<p>
+<font style="font-size: 18px;">
+    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/mloskot/images/16349/mikhail-mordasov-sochi-fishing.jpg" style="width: 692px;">
+</font>
+</p>
+<p>
+<font style="font-size: 18px;">
+    <span style="text-align: left;">Photo by&nbsp;<a href="http://mmordasov.com/">Mikhail Mordasov</a>&nbsp;| Copyright (C)&nbsp;Mikhail Mordasov (AFP - Getty Images)</span>
+</font>
+</p>
+</section>
+<section>
+    <h2>(pre-)HISTORY</h2>
+<div>
+<span style="font-size: 37px; font-style: normal; font-variant: normal;">Originally created by&nbsp;</span>
+    <a href="http://msobczak.com/" style="font-size: 37px; font-style: normal; font-variant: normal;">Maciej Sobczak</a>&nbsp;<span>in CERN</span>
+</div>
+<div>
+    <span>as an abstraction for Oracle</span>
+</div>
+<div>
+<span>
+    <br>
+</span>
+</div>
+<p>
+<b>
+<font color="#ff3800">S</font>imple <font color="#ff3800">O</font>racle <font color="#ff3800">C</font>all <font color="#ff3800">I</font>nterface</b>
+</p>
+<div>
+<ul>
+<li>
+<span style="text-align: center;">2004-09: <b>1.0.0</b>
+</span>
+</li>
+<ul>
+<li>
+    <span style="text-align: center;">Posted to&nbsp;<a href="http://groups.google.com/group/comp.lang.c++.moderated/">comp.lang.c++.moderated</a>
+</span>
+</li>
+</ul>
+</ul>
+</div>
+</section>
+<section>
+    <h2>HISTORY</h2>
+<div>
+<h3>
+    <b style="font-size: 36px; font-style: normal; font-variant: normal;">
+        <b style="font-size: 36px; font-style: normal; font-variant: normal;">
+            <font color="#ff3800">S</font>imple&nbsp;<font color="#ff3800">O</font>pen (Database)&nbsp;<font color="#ff3800">C</font>all&nbsp;<font color="#ff3800">I</font>nterface</b>
+        </b>
+    </h3>
+<ul style="font-size: 36px; font-variant: normal;">
+<li style="font-style: normal;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">
+            <span style="font-size: 36px; font-style: normal; font-variant: normal;">2006-01:&nbsp;</span>
+            <b style="font-size: 36px; font-style: normal; font-variant: normal;">2.0.0</b>
+            <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;PostgreSQL backend</span>
+        </span>
+    </span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">2006-03:&nbsp;</span>
+    <b style="font-size: 36px; font-style: normal; font-variant: normal;">2.0.1</b>
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;MySQL and SQLite backends</span>
+    <br>
+</span>
+</li>
+<li style="text-align: center;">
+<i>(<a href="https://twitter.com/mloskot">@mloskot</a> joined the project)</i>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">2006-12:&nbsp;</span>
+        <b style="font-size: 36px; font-style: normal; font-variant: normal;">2.2.0</b>
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;ODBC and Firebird&nbsp;</span>
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">backends</span>
+        <br>
+    </span>
+</span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">2008-07:&nbsp;<b>3.0.0</b> New naming convention</span>
+</span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">2011-10:</span>
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">&nbsp;</span>
+<b style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">3.1.0</b>
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">&nbsp;Ada bindings</span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">2013-03:</span>
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;</span>
+    <b style="font-size: 36px; font-style: normal; font-variant: normal;">3.2.0</b>
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;DB2 backend, moved to GitHub</span>
+    <br>
+</span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">2013-04:</span>
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;</span>
+        <b style="font-size: 36px; font-style: normal; font-variant: normal;">3.2.1</b>
+        <span style="font-size: 36px; font-style: normal; font-variant: normal;">&nbsp;Bugfix release (<b>
+            <font color="#ff3800">current</font>
+            </b>)</span>
+            <br>
+        </span>
+    </span>
+</li>
+<li style="font-style: normal;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">
+<span style="font-size: 36px; font-style: normal; font-variant: normal;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">????-??</span>
+</span>
+</span>
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">:</span>
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+<b style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">4.0.0</b>
+<span style="font-size: 36px; font-style: normal; font-variant: normal; text-align: center;">&nbsp;Lots of plans!</span>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section>
+    <section>
+        <h3>Canonical Machinery</h3>
+<div class="absolute-element" style="position: absolute; width: 552px; height: 577px; z-index: 4; left: 409px; top: 102px;">
+<pre><code><font style="font-size: 32px;"><span style="font-family: monospace;">class <font color="#ff3800">statement</font> </span>{</font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">public:</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"><br></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> statement(session&amp; s);</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"><br></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> void <font color="#ff3800"><b>exchange</b></font>(/*...*/);</font></span></code><code><span style="font-size: 32px;"> void </span><font color="#ff3800" style="font-size: 32px; font-family: inherit; font-style: inherit; font-variant: inherit;"><b>define_and_bind</b></font><span style="font-size: 32px;">();</span><br></code><code><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"> void </span><font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit; font-size: 32px;"><b>prepare</b></font><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;">(string q);</span><span style="font-family: monospace;"><font style="font-size: 32px;"><br></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> bool <font color="#ff3800"><b>execute</b></font>();</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> bool <font color="#ff3800"><b>fetch</b></font>();</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">};</font></span></code>    </pre>
+</div>
+<div class="absolute-element" style="position: absolute; width: 447px; height: 573px; z-index: 4; left: -5px; top: 102px;">
+<pre><code><font style="font-size: 32px;">class <font color="#ff3800">session</font> <span style="font-family: monospace;">{</span></font></code><code><font style="font-size: 32px;">public:</font></code><code><font style="font-size: 32px;"> // open connection</font></code><code><font style="font-size: 32px;"> <font color="#ff3800"><b>session</b></font>(string c);</font></code><code><font style="font-size: 32px;"><br></font></code><code><font style="font-size: 32px;"> void begin();</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal;"> void commit();</span><br></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal;"> void rollback();</span><span style="font-family: monospace; font-style: normal; font-variant: normal;"><br></span></font></code><code><font style="font-size: 32px;">};</font></code></pre>
+</div>
+</section>
+<section>
+    <h2>
+    <span style="font-size: 55.8px;">CANONICAL MACHINERY STEP-BY-STEP</span>
+</h2>
+<p>
+</p>
+<ol>
+<li class="fragment" data-fragment-index="0">
+        <font style="font-size: 42px;">Connect<br>
+</font>
+    </li>
+    <li class="fragment" data-fragment-index="1">
+        <font style="font-size: 42px;">
+            <span>Collect exchange variables</span>
+            <br>
+</font>
+    <ul>
+<li>
+            <font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit; font-size: 42px;">Bind*</font>
+            <span style="font-size: 42px;"> local objects to SQL</span>
+            <span style="font-size: 42px;">&nbsp;</span>
+            <span style="font-style: normal; font-variant: normal; font-size: 42px;">placeholders</span>
+            <br>
+</li>
+        <li>
+            <font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit; font-size: 42px;">Define*</font>
+            <span style="font-size: 42px;"> local objects for query output</span>&nbsp;</li>
+</ul>
+<ul>
+</ul>
+</li>
+    <li class="fragment" data-fragment-index="2">
+        <font style="font-size: 42px;">
+<span>Prepare statement</span>
+</font>
+</li>
+<li class="fragment" data-fragment-index="2">
+<font style="font-size: 42px;">
+<span>Execute statement</span>
+            <br>
+</font>
+    </li>
+    <li class="fragment" data-fragment-index="3">
+        <span>
+            <font style="font-size: 42px;">Fetch data from result set</font>
+        </span>
+        <br>
+</li>
+</ol>
+<p>
+</p>
+<p>
+<span style="font-size: 54px; text-align: left;">
+    <br>
+</span>
+</p>
+<p style="text-align: center;" class="fragment" data-fragment-index="4">
+<font>
+    <span style="font-size: 42px; text-align: left;">
+        <font>*&nbsp;</font>
+    </span>
+    <span style="font-size: 42px; color: rgb(255, 56, 0); font-style: normal; font-variant: normal; text-align: left;">bind</span>
+    <span style="font-size: 42px; text-align: left;">
+        <font>,&nbsp;</font>
+    </span>
+    <span style="font-size: 42px; color: rgb(255, 56, 0); text-align: left;">define</span>
+    <span style="text-align: left;">
+<span style="font-size: 42px;">&nbsp;terminology</span>
+<span>&nbsp;</span>
+</span>
+</font>
+<font style="font-family: inherit; font-style: inherit; font-variant: inherit; font-size: 42px;">
+    <span style="text-align: left;">from</span>
+</font>
+<span style="font-size: 42px; text-align: left;">&nbsp;</span>
+<a href="http://en.wikipedia.org/wiki/Oracle_Call_Interface" style="font-size: 42px; text-align: left;">Oracle Call Interface</a>
+<span style="font-size: 42px; text-align: left;">&nbsp;heritage; SOCI documentation use &nbsp;<font color="#ff3800">binding</font>
+</span>
+<span style="text-align: left;">&nbsp;</span>
+<span style="text-align: left;">for directions.</span>
+</p>
+</section>
+<section>
+    <h3 style="font-style: normal; font-variant: normal;">CANONICAL MACHINERY IN ACTION</h3>
+<div class="absolute-element" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal; position: absolute; width: 909px; height: 610px; z-index: 4; left: 35px; top: 73px;">
+    <pre style="width: 818.09619140625px;">
+        <code>
+            <font style="font-size: 32px;"> </font>
+            <font style="font-size: 24px;">std::string name; // define variable</font>
+        </code>
+        <code>
+            <span style="font-family: monospace; font-style: normal; font-variant: normal;">
+                <font style="font-size: 24px;"> int id = 101;     // bind variable</font>
+            </span>
+        </code>
+        <code>
+            <span style="font-family: monospace; font-size: 32.33208084106445px; font-style: normal; font-variant: normal;">
+                <br>
+            </span>
+        </code>
+        <code>
+            <span style="font-family: monospace;">
+                <font style="font-size: 32px;"> session db("dbname=test");</font>
+            </span>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> statement st(db);</font>
+        </code>
+        <code>
+            <span style="font-size: 32.33208084106445px; font-family: monospace; font-style: normal; font-variant: normal;"> st.</span>
+            <font color="#ff3800" style="font-size: 32px; font-style: inherit; font-variant: inherit;">exchange</font>
+            <span style="font-size: 32.33208084106445px; font-family: monospace; font-style: normal; font-variant: normal;">(</span>
+            <span style="font-size: 32.33208084106445px; font-family: monospace; font-style: normal; font-variant: normal;">id</span>
+            <span style="font-size: 32.33208084106445px; font-family: monospace; font-style: normal; font-variant: normal;">);     // bind input</span>
+            <br>
+        </code>
+        <code>
+            <span style="font-family: monospace; font-size: 32.33208084106445px; font-style: normal; font-variant: normal;"> st.</span>
+            <font color="#ff3800" style="font-size: 32.33208084106445px;">exchange</font>
+            <span style="font-family: monospace; font-size: 32.33208084106445px; font-style: normal; font-variant: normal;">(</span>
+            <span style="font-family: monospace; font-size: 32.33208084106445px; font-style: normal; font-variant: normal;">name</span>
+            <span style="font-family: monospace; font-size: 32.33208084106445px; font-style: normal; font-variant: normal;">);   // define output</span>
+            <span style="font-size: 32.33208084106445px; font-family: monospace; font-style: normal; font-variant: normal;">
+                <br>
+            </span>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> st.<font color="#ff3800">define_and_bind</font>();</font>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> st.<font color="#ff3800">prepare</font>(</font>
+            <span style="font-family: monospace; font-size: 32px;">"SELECT name FROM person "</span>
+        </code>
+        <code>
+            <font style="font-size: 32px;">            "WHERE id = ?");</font>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> st.<font color="#ff3800">execute</font>();</font>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> while (st.<font color="#ff3800">fetch</font>()) </font>
+            <span style="font-family: monospace; font-size: 32px;">{</span>
+        </code>
+        <code>
+            <font style="font-size: 32px;">   std::cout &lt;&lt; name &lt;&lt; std::endl;</font>
+        </code>
+        <code>
+            <font style="font-size: 32px;"> }</font>
+        </code>
+    </pre>
+</div>
+</section>
+<section>
+    <h2>What's the 'canonical' problem?</h2>
+<div class="fragment" data-fragment-index="0">
+    <font style="font-size: 42px;">Lots of code with</font>
+</div>
+<div class="fragment" data-fragment-index="1">
+<font style="font-size: 54px;">
+    <b>
+    <br>
+</b>
+</font>
+</div>
+<div class="fragment" data-fragment-index="1">
+<font style="font-size: 54px;">
+    <b>excplicit</b>
+</font>
+</div>
+<div class="fragment" data-fragment-index="2">
+<font style="font-size: 54px;">
+    <b>low-level</b>&nbsp;</font>
+</div>
+<div class="fragment" data-fragment-index="3">
+<font style="font-size: 54px;">for <b>technical</b> purpose only</font>
+</div>
+<div class="fragment" data-fragment-index="4">
+<span>
+    <font style="font-size: 54px;">
+        <b>conceptually disconnected</b>
+    </font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="5">
+<font style="font-size: 54px;">and <b>irrelevant</b>&nbsp;to the problem at hand</font>
+</div>
+<div class="fragment" data-fragment-index="6">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>
+        <br>
+    </b>
+</font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="6">
+<span style="font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>function calls</b>
+</font>
+</span>
+<br>
+</div>
+</section>
+<section>
+    <h2>Why that is a problem?</h2>
+<div>
+    <font style="font-size: 54px;">
+        <br>
+    </font>
+</div>
+<div class="fragment" data-fragment-index="0">
+<font style="font-size: 54px;">Basic facade,</font>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">"back-end to front-end"</span>
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">&nbsp;</span>
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">wrapper</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<font style="font-size: 54px;">
+    <span>with low-level concepts revealed,</span>
+</font>
+</div>
+<div class="fragment" data-fragment-index="3">
+<font style="font-size: 54px;">
+    <span>low-level conventions required</span>
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="4">
+<font style="font-size: 54px;">
+<span>and&nbsp;</span>
+</font>
+<span style="font-size: 54px;">distracting elements&nbsp;</span>
+<span style="font-size: 54px;">displayed</span>
+</div>
+<div>
+<font style="font-size: 54px;">
+    <br>
+</font>
+</div>
+<div class="fragment" data-fragment-index="5">
+<font style="font-size: 54px;">
+    <b>Has real value been added?</b>
+</font>
+</div>
+<div>
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <br>
+    </font>
+</span>
+</div>
+</section>
+</section>
+<section>
+    <section>
+        <h2>express yourself</h2>
+<div>
+<div style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+        <br>
+    </div>
+<blockquote>
+    <font style="font-size: 54px;">
+        <font>I'm <b>expressin</b>' with my full <b>capabilities</b>
+    </font>
+</font>
+</blockquote>
+<blockquote>
+<font style="font-size: 42px;">Now I'm livin' in correctional facilities</font>
+</blockquote>
+<blockquote>
+<span style="font-size: 41.718814849853516px;">...I get straight, meditate, like a Buddhist</span>
+</blockquote>
+<blockquote>
+<span style="font-size: 54px; font-style: italic;">...But my </span>
+<b style="font-size: 54px; font-style: italic;">technique</b>
+<span style="font-size: 54px; font-style: italic;"> is very necessary</span>
+</blockquote>
+<p style="text-align: center;">
+<span style="font-size: 24px;">N.W.A - </span>
+<a href="http://youtu.be/u31FO_4d9TY" style="font-size: 24px;">Express Youself</a>
+<span style="font-size: 24px;">, 1988</span>
+<br>
+</p>
+</div>
+</section>
+<section>
+    <h2>The SYNTAX nirvana</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<br>
+</div>
+<div>
+<pre><code><font style="font-size: 54px;"> int v = 7;</font></code><code><font style="font-size: 54px;"> std::cout &lt;&lt; v;</font></code></pre>
+</div>
+</section>
+<section>
+    <h2>C++ natural syntax</h2>
+<div>
+    <span style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+        <br>
+    </span>
+</div>
+<div class="fragment" data-fragment-index="0">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>Idiomatic</b>
+    </font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>Minimal</b>
+    </font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>Simple to write</b>
+    </font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="3">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>Easy to learn and understand</b>
+    </font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="4">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>Operation complexity kept out of sight</b>
+    </font>
+</span>
+</div>
+<div>
+<span style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>syntax-first development</h2>
+<div>
+    <b style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+        <br>
+    </b>
+</div>
+<h3 class="fragment" data-fragment-index="0">
+<b style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">XP and TDD inspired</b>
+</h3>
+<div>
+<b style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+    <br>
+</b>
+</div>
+<div class="fragment" data-fragment-index="1">
+<span style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+    <b>setting up syntax</b>
+</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+<br>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+    <b>head-scratching</b>
+</span>
+</div>
+<div class="fragment" data-fragment-index="3">
+<span style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+    <b>pen-biting</b>
+</span>
+</div>
+<div class="fragment" data-fragment-index="3">
+<br>
+</div>
+<div class="fragment" data-fragment-index="4">
+<span style="font-size: 54.234458923339844px; font-style: normal; font-variant: normal;">
+    <b>coding</b>
+</span>
+</div>
+</section>
+<section>
+    <h2>holy grail</h2>
+<div>
+    <br>
+</div>
+<div data-fragment-index="0">
+<div class="visible" data-fragment-index="3" style="font-style: normal; font-variant: normal;">
+<pre style="width: 862.11279296875px;">
+    <code>
+        <font style="font-size: 42px;">
+            <font> </font>
+            <font>person p;</font>
+        </font>
+    </code>
+    <code>
+        <font style="font-size: 42px;">
+            <font> session sql(...);</font>
+        </font>
+    </code>
+    <code>
+        <font style="font-size: 42px;">
+            <font> sql&nbsp;</font>
+        </font>
+        <span style="font-size: 42px; font-family: monospace;">&lt;&lt;&nbsp;</span>
+        <font color="#ff3800" style="font-style: inherit; font-variant: inherit; font-size: 32px;">"SELECT name,age FROM person"</font>
+        <span style="font-family: monospace; font-size: 42px;">,</span>
+    </code>
+    <code>
+        <font style="font-size: 42px;">        into(p);</font>
+    </code>
+</pre>
+</div>
+</div>
+<div>
+<br>
+</div>
+<h2 class="fragment" data-fragment-index="3">
+<span>or, monty python?</span>
+<br>
+</h2>
+</section>
+<section>
+    <h2>C++ techniques</h2>
+<div>
+<div class="fragment" data-fragment-index="0" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+    <font style="font-size: 54px;">
+        <b>
+        <br>
+    </b>
+</font>
+</div>
+<div class="fragment" data-fragment-index="0" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>operator overloading</b>
+</font>
+</div>
+<div style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>
+    <br>
+</b>
+</font>
+</div>
+<div class="fragment" data-fragment-index="1" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>templates</b>
+</font>
+</div>
+<div style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>
+    <br>
+</b>
+</font>
+</div>
+<div class="fragment" data-fragment-index="2" style="font-size: 36.503963470458984px; font-style: normal; font-variant: normal;">
+<font style="font-size: 54px;">
+    <b>lifetime rules of temporary objects</b>
+</font>
+</div>
+</div>
+</section>
+</section>
+<section>
+    <h2>what's the <font color="#ff3800">SOCI</font> magic?</h2>
+<div>
+    <br>
+</div>
+<div>
+<br>
+</div>
+<div class="fragment" data-fragment-index="0">
+<font style="font-size: 72px;">
+<font>
+    <b>Illusion&nbsp;</b>
+</font>
+<font style="font-family: inherit; font-style: inherit; font-variant: inherit;">of&nbsp;</font>
+<i>embedding&nbsp;</i>
+<b style="color: rgb(255, 56, 0);">SQL&nbsp;</b>in&nbsp;<b>C++</b>
+</font>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <section>
+        <h2>anatomy of database session</h2>
+<h3 class="fragment" data-fragment-index="0">
+        <br>
+</h3>
+<h3 class="fragment" data-fragment-index="0">connect on construction</h3>
+<div class="fragment" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;">using namespace soci;</font></code><code><font style="font-size: 32px;">
+<font color="#ff3800"><b>session</b></font> sql(<b><font color="#21ff00">[BACKEND]</font></b>, <b><font color="#00bfff">[CONNECTION STRING]</font></b>);</font></code></pre>
+</div>
+<div>
+<br>
+</div>
+<h3 class="fragment" data-fragment-index="2">connect in two steps</h3>
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">session sql;</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">sql.</span></font><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(255, 56, 0);">open</b><span style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;">(</span><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;"><font color="#21ff00">[BACKEND]</font></b><span style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;">, </span><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;"><font color="#00bfff">[CONNECTION STRING]</font></b><span style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;">);</span><span style="font-size: 32px; font-family: monospace;"> </span></code>    </pre>
+</div>
+</section>
+    <section>
+        <h2>
+<span style="font-size: 75.96px;">SESSION</span>
+        <span style="font-size: 75.96px;">&nbsp;</span>
+        <span style="font-size: 75.96px;">BACKEND</span>
+</h2>
+<p>Database-specific connection session</p>
+<p>
+        <br>
+    </p>
+<div>
+<pre><code><font style="font-size: 32px;"><font>string connstr(</font><font color="#00bfff"><b>"dbname=test user=skippy"</b></font>);</font></code><code><font style="font-size: 32px;"><span><br></span></font></code><code><font style="font-size: 32px;"><span>// uses factory object provided</span></font></code><code><font style="font-size: 32px;"><font color="#ff3800"><b>session</b></font> sql(<font color="#02ff00"><b>postgresql</b></font>, <font color="#00bfff"><b>connstr</b></font>);</font></code><code><font style="font-size: 32px;"><br></font></code><code><font style="font-size: 32px;">// loads backend by name at run-time</font></code><code><font style="font-size: 32px;"><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(255, 56, 0);">session</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> sql(<font color="#02ff00"><b>"postgresql"</b></font>, </span><span style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#00bfff"><b>connstr</b></font></span><span style="font-family: monospace; font-style: normal; font-variant: normal;">);</span><br></font></code><code><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(255, 56, 0);">session</b><span style="font-size: 32px;"> sql(<b><font color="#02ff00">"postgresql://</font><font color="#00bfff">dbname=test</font><font color="#02ff00">"</font></b>);</span><br></code></pre>
+</div>
+<div>
+<br>
+</div>
+</section>
+<section>
+    <h2>advanced backend parameters</h2>
+<div>
+    <br>
+</div>
+<div>
+<pre><code><font style="font-size: 32px;"><font><font color="#ff3800"><b>connection_parameters</b></font> p(</font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(2, 255, 0);">"odbc"</b><span style="font-family: monospace;">,</span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 191, 255);">"DSN=test"</b><span>);</span></font></code><code><font style="font-size: 32px;"><br></font></code><code><font style="font-size: 32px;">// Force SQL_DRIVER_NOPROMPT
+p.set_option(</font></code><code><font style="font-size: 32px;">   <b>odbc_option_driver_complete</b>,<b>"0"</b>);</font></code><code><font style="font-size: 32px;">
+<font color="#ff3800"><b>session</b></font> sql(<font color="#ff3800"><b>p</b></font>);</font></code></pre>
+</div>
+</section>
+</section>
+<section>
+    <section>
+<h2>SIMPLE SQL statements</h2>
+<p class="fragment" data-fragment-index="0">Executed only <font color="#ff3800">once</font>, immediately</p>
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">session sql;</font></code><code><font style="font-size: 32px;"><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(255, 48, 0);">sql</b> <font color="#28ff00"><b>&lt;&lt;</b></font> "DROP TABLE employee";</font></code></pre>
+</div>
+<div class="fragment" data-fragment-index="2">
+<pre><code><span><font style="font-size: 32px;">string table_name("employee");</font></span></code><code><font style="font-size: 32px;"><font color="#ff3000"><b>sql</b></font> <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b> "DROP TABLE " <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b> table_name;</font><br></code></pre>
+</div>
+<div class="fragment" data-fragment-index="3">
+<pre><code><span><font style="font-size: 32px;">int id = 7;</font></span></code><code><font style="font-size: 32px;"><font color="#ff3000"><b>sql</b></font> <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b> "DELETE FROM "</font></code><code><span style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;">    </span><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-size: 32px; font-family: monospace;"> table_name</span></code><code><font style="font-size: 32px;"><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(40, 255, 0);">    &lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"> " WHERE id="</span></font></code><code><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">    </span><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"> id</span><span style="font-size: 32px; font-family: monospace;">;</span></code>    </pre>
+</div>
+</section>
+    <section>
+        <h2>anatomy of the <font color="#ff3a02">staTement&nbsp;</font>
+<span style="font-size: 75.96px;">SYNTAX</span>
+</h2>
+<div class="fragment" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;"><font color="#ff3000"><b>sql</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal;"> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> "DROP TABLE " </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> table_name;</span></font>
+</code></pre>
+</div>
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;"><font color="#f9f7f7"><b>sql.</b></font><font color="#ff3000" style="font-weight: bold;">once</font><span style="font-family: monospace; font-style: normal; font-variant: normal;"> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> "DROP TABLE " </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> table_name;</span></font>
+</code></pre>
+</div>
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">class <font color="#ff3800"><b>session</b></font> <span style="font-family: monospace;">{</span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">public:</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> <b><font color="#f7ff00">once_type</font></b> <b><font color="#ff3800">once</font></b>;</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"><br></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> template &lt;typename T&gt;</font></span></code><code><font style="font-size: 32px;"><span style="font-family: monospace;"><font> once_temp_type </font></span><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#21ff00">operator&lt;</font></b><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#21ff00">&lt;</font></b><span style="font-family: monospace;">(T </span><font color="#00ceff" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>t</b></font><span style="font-family: monospace;">) {</span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   return <b><font color="#ff3800">once</font><font color="#21ff00"> &lt;&lt; </font><font color="#00ceff">t</font></b>;</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"> }</font></span></code><code><font style="font-size: 32px;">};</font></code>    </pre>
+</div>
+
+
+</section>
+    <section>
+<h2 style="font-style: normal; font-variant: normal;">ANATOMY OF the <font color="#ff3a02">ONCE</font>
+</h2>
+<div class="visible" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;"><b><font color="#f9f7f7">sql.</font><font color="#ff3000">once</font></b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> "DROP TABLE " </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> table_name;</span></font>
+</code></pre>
+</div>
+
+
+<div>
+<pre><code><font style="font-size: 32px;">class <font color="#ff2800"><b>once_type</b></font> {
+ session* session_;
+public:
+
+ template &lt;typename T&gt;
+ once_temp_type&nbsp;</font><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"><font color="#21ff00">operator&lt;</font></b><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"><font color="#21ff00">&lt;</font></b><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">(T </span><font color="#00ceff" style="font-family: inherit; font-style: inherit; font-variant: inherit; font-size: 32px;"><b>t</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">) </span><span style="font-size: 32px; font-family: monospace;">{</span></code><code><font style="font-size: 32px;">   <b><font color="#f7ff00">once_temp_type</font></b> <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">once_temp</font></b>(*session_);
+ &nbsp; return </font><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"><font color="#ff3800">once_temp</font></b><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal;"><font color="#21ff00"> &lt;&lt; </font><font color="#00ceff">t</font></b><span style="font-size: 32px; font-family: monospace;">;</span></code><code><font style="font-size: 32px;"> }
+};</font></code>    </pre>
+</div>
+
+
+
+
+
+
+
+
+</section>
+    <section>
+<h3>anatomy of the <font color="#ff3a02">temporary</font>
+</h3>
+<div class="visible" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;"><font><font color="#f9f7f7"><b>sql.</b></font><b><font color="#ff3800">once</font></b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> "DROP TABLE " <b><font color="#ff3a02">?</font></b> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> table_name&nbsp;</span></font><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3a02">?</font></b><span>;</span></font></code></pre>
+</div>
+<div>
+<pre><code><font style="font-size: 32px;">class <b><font color="#ff2800">once_temp_type</font></b> {</font></code><code><font style="font-size: 32px;"> ref_counted_statement* st_;</font></code><code><font style="font-size: 32px;">public:</font></code><code><font style="font-size: 32px;"><br></font></code><code><font style="font-size: 32px;"> template &lt;typename T&gt;</font></code><code><font style="font-size: 32px;"> once_temp_type&amp; <b><font color="#21ff00">operator&lt;&lt;</font></b>(T t) {</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;">   // push into buffer, stringstream </span><br></font></code><code><font style="font-size: 32px;">   st_-&gt;<b><font color="#00d6ff">accumulate</font></b>(t);</font></code><code><font style="font-size: 32px;">   return <font color="#ff3a02"><b>*this</b></font>;</font></code><code><font style="font-size: 32px;"> }</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal;"> <b><font color="#28ff00">~once_temp_type</font></b>() { st_-&gt;<b><font color="#00f4ff">dec_ref</font></b>(); } </span><br></font></code><code><font style="font-size: 32px;">};</font></code>    </pre>
+</div>
+</section>
+    <section>
+<h3>death of the&nbsp;<font color="#ff3a02">TEMPORARY</font>
+</h3>
+<div class="visible" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;"><font><font color="#f9f7f7"><b>sql.</b></font><b><font color="#ff3800">once</font><span style="font-family: monospace; font-style: normal; font-variant: normal;"> </span></b><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> "DROP TABLE " </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">&lt;&lt;</b><span style="font-family: monospace; font-style: normal; font-variant: normal;"> table_name</span></font>; <b><font color="#ff1900">?</font></b></font></code></pre>
+</div>
+<div>
+<pre><code><font style="font-size: 32px;">class <b><font color="#ff2800">ref_counted_statement</font></b> {</font></code><code><span style="font-size: 32px; font-family: monospace;"> statement st_;</span><br></code><code><font style="font-size: 32px;">public:</font></code><code><span style="font-size: 32px; font-family: monospace;"> void <b><font color="#ffff00">def_ref</font></b>() {</span><br></code><code><span style="font-size: 32px; font-family: monospace;">   if (--counter == 0) <b><font color="#00d6ff">final_action</font></b>();</span></code><code><font style="font-size: 32px;"> }</font></code><code><font style="font-size: 32px;"> void <b><font color="#ffff00">final_action</font></b>() {</font></code><code><span style="font-size: 32px; font-family: monospace;">   st_.<b><font color="#00ddff">prepare</font></b>(get_query());</span><br></code><code><span style="font-size: 32px; font-family: monospace;">   st_.<font color="#00ddff"><b>define_and_bind</b></font>();</span></code><code><span style="font-size: 32px; font-family: monospace;">   st_.<b><font color="#00ddff">execute</font></b>();</span></code><code><font style="font-size: 32px;"> }</font></code><code><font style="font-size: 32px;">};</font></code>    </pre>
+</div>
+
+</section>
+    <section>
+        <h2>statement execution summary</h2>
+<ol>
+<font style="font-size: 42px;">
+        <li class="fragment" data-fragment-index="0">
+            <span style="text-align: center;">
+        <b>sql &lt;&lt;</b> "..." &lt;&lt; ... ;</span>
+        </li>
+        <li class="fragment" data-fragment-index="1">
+            <span style="text-align: center;">sql.</span>
+            <span style="text-align: center;">once</span>
+            <span style="text-align: center;"> &lt;&lt; "..." &lt;&lt; ... ;</span>
+        </li>
+        <li class="fragment" data-fragment-index="2">
+            <span style="text-align: center;">start up the <b>temporary</b> object</span>
+        </li>
+        <li class="fragment" data-fragment-index="3">
+            <span style="text-align: center;">pass the temporary through <b>expression</b>
+    </span>
+        <ul>
+<li>
+                <span style="text-align: center;">collecting all streamable elements</span>
+            </li>
+        </ul>
+</li>
+        <li class="fragment" data-fragment-index="4">reach <b>end of the expression</b>
+</li>
+        <li class="fragment" data-fragment-index="5">
+<b>destroy the temporary</b> object &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<ul>
+<li>prepare statement</li>
+            <li>
+<b>execute</b> statement</li>
+            <li>exchange data</li>
+            <li>clean up</li>
+        </ul>
+</li>
+    </font>
+</ol>
+</section>
+<section>
+    <h2>C++<font color="#ff3000">11</font> caveats</h2>
+<div class="fragment" data-fragment-index="0">
+<p>
+Destructors default to&nbsp;
+</p>
+<p>
+<font style="font-size: 72px;">
+    <font>
+    <b style="font-style: normal; font-variant: normal;">
+        <font color="#38ff00">noexcept</font>
+</b>
+</font>
+<b style="font-style: normal; font-variant: normal;">(</b>
+<b>
+<font color="#ff3000">true</font>)</b>
+</font>
+    </p>
+<p>
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3166.html">N3166</a>
+<span>, </span>
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2010/n3204.htm">N3204</a>
+</p>    
+</div>
+
+<div class="fragment" data-fragment-index="1">
+<font style="font-size: 72px;">
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">SOCI must address this issue with:</span>
+    <b style="font-style: normal; font-variant: normal; font-size: 72px;">
+        <font color="#ff3000">
+            <br>
+</font>
+    </b>
+</font>
+<p>
+<font style="font-size: 72px;">
+    <font>
+        <b style="font-style: normal; font-variant: normal;">
+            <font color="#ff3000">noexcept</font>
+        </b>
+    </font>
+    <b style="font-style: normal; font-variant: normal;">(</b>
+    <b style="font-style: normal; font-variant: normal;">
+        <font color="#38ff00">false</font>
+    </b>
+    <b style="font-style: normal; font-variant: normal;">)</b>
+</font>
+</p>
+<p>
+</p>
+</div>
+
+<p class="fragment" data-fragment-index="2">
+<br>
+</p>
+<p class="fragment" data-fragment-index="2">Thanks to <a href="http://permalink.gmane.org/gmane.comp.db.soci.user/1508">Roger Orr</a>&nbsp;and <a href="http://www.justsoftwaresolutions.co.uk/cplusplus/cplusplus-standards-committee-mailing-october-2010.html">Anthony Williams</a>
+<br>
+for reporting this issue<span>&nbsp;in SOCI.</span>
+</p>
+
+
+
+
+</section>
+</section>
+<section>
+    <section>
+        <h2>ELEMENTS of <font color="#ff3800">data exchange</font>
+</h2>
+<p>
+</p>
+<br>
+        <ul>
+<li class="fragment" data-fragment-index="0">
+        <span style="text-align: center;">
+            <font style="font-size: 42px;">Bind local <b>output</b> data (aka <i>define</i>)</font>
+        </span>
+    </li>
+    <li class="fragment" data-fragment-index="1">
+        <span style="text-align: center;">
+            <font style="font-size: 42px;">Bind local <b>input</b> data (aka <i>bind</i>)</font>
+        </span>
+    </li>
+    <li class="fragment" data-fragment-index="2">
+        <span style="text-align: center;">
+            <font style="font-size: 42px;">Bind objects of <b>static</b> types</font>
+        </span>
+    </li>
+    <li class="fragment" data-fragment-index="3">
+        <span style="text-align: center;">
+            <font style="font-size: 42px;">Bind objects in&nbsp;<b>dynamic</b> result set</font>
+    </span>
+</li>
+<li class="fragment" data-fragment-index="4">
+<span style="font-size: 42px; text-align: center;">Bind objects of </span>
+<b style="font-size: 42px; text-align: center;">user-defined</b>
+<span style="font-size: 42px; text-align: center;"> types</span>
+<br>
+</li>
+    <li class="fragment" data-fragment-index="5">
+        <span style="text-align: center;">
+            <font style="font-size: 42px;">Object-Relational Mapping (<b>ORM</b>)</font>
+</span>
+</li>
+<li class="fragment" data-fragment-index="6">
+    <span style="text-align: center;">
+        <font style="font-size: 42px;">
+            <span style="font-size: 42px; font-style: normal; font-variant: normal;">Handle&nbsp;</span>
+            <b style="font-size: 42px; font-style: normal; font-variant: normal;">NULL</b>
+            <span style="font-size: 42px; font-style: normal; font-variant: normal;">&nbsp;and data conditions</span>
+            <br>
+</font>
+    </span>
+</li>
+</ul>
+</section>
+<section>
+<h2>SQL with <font color="#ff3800">DATA exchange</font>
+</h2>
+<div>
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">Executed only&nbsp;</span>
+    <font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit;">once</font>
+    <span style="font-size: 36px; font-style: normal; font-variant: normal;">, immediately</span>
+</div>
+
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal;">string <font color="#007aff"><b>name</b></font>; </span><span>// output variable</span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);"><br></b></font></code><code><font style="font-size: 32px;"><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);">sql</b><span style="font-family: monospace;"> </span><font color="#28ff00" style="font-style: inherit; font-variant: inherit;"><b>&lt;&lt;</b></font><span style="font-family: monospace;"> "SELECT <font color="#f7ff00"><b>name</b></font> FROM person",<font color="#ff3800"><b>into</b></font>(<font color="#007aff"><b>name</b></font>);</span></font><br></code></pre>
+</div>
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">int <b><font color="#007aff">id</font></b> = 7;  // input variable<br></font></code><code><font style="font-size: 32px;"><font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);">sql</b><span style="font-family: monospace;"> </span><font color="#28ff00" style="font-style: inherit; font-variant: inherit;"><b>&lt;&lt;</b></font><span style="font-family: monospace;">&nbsp;</span></font><span style="font-family: monospace;">"SELECT <b><font color="#f7ff00">name</font></b> FROM person</span></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace;">       WHERE id=<font color="#ffff00"><b>:i</b></font>"</span><span style="font-family: monospace;">, </span><font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>into</b></font><span style="font-family: monospace;">(</span><b style="font-family: monospace;"><font color="#007aff">name</font></b><span style="font-family: monospace;">), </span><font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>use</b></font><span style="font-family: monospace;">(</span><font color="#007aff" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>id</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+<div class="fragment" data-fragment-index="3">
+<pre><code><font style="font-size: 32px;">indicator <font color="#00a0ff" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>ind</b></font>;<br></font></code><code><font style="font-size: 32px;"><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);">sql</b><span style="font-family: monospace;"> </span><font color="#28ff00" style="font-style: inherit; font-variant: inherit;"><b>&lt;&lt;</b></font><span style="font-family: monospace;"> "SELECT <font color="#ffffff"><b>name</b> </font>FROM person",</span></font></code><code><font style="font-size: 32px;"><font color="#ff3800" style="font-family: inherit; font-style: inherit; font-variant: inherit;"><b>       into</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal;">(</span><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ffffff">name</font></b>, <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 160, 255);">ind</b>);</font></code><code><font style="font-size: 32px;">if (<b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 160, 255);">ind</b> == soci::<font color="#ffff00"><b>i_null</b></font>) { ... </font><span style="font-size: 32px; font-family: monospace;">}</span></code></pre>
+</div>
+</section>
+<section>
+<h2>ANATOMY of <font color="#ff3800">BINDING</font>
+</h2>
+<div>
+<pre><code><font style="font-size: 32px;">class <b><font color="#ff2800">once_temp_type</font></b> {</font></code><code><font style="font-size: 32px;"> ref_counted_statement* st_;</font></code><code><font style="font-size: 32px;">public:</font></code><code><font style="font-size: 32px;"> once_temp_type&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(40, 255, 0);">operator,</b>(<font color="#ff3800"><b>into_type_ptr</b></font> <font color="#00a0ff"><b>i</b></font>){</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;">   // push onto statement intos</span><br></font></code><code><font style="font-size: 32px;">   st_-&gt;exchange(<b><font color="#00a0ff">i</font></b>);</font></code><code><span><font style="font-size: 32px;"> }</font></span></code><code><span style="font-size: 32px;"> once_temp_type&amp;</span><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"> </span><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(40, 255, 0);">operator,</b><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">(<b><font color="#ff3800">use_type_ptr</font></b> <b><font color="#00a0ff">u</font></b>){</span></code><code><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">   // push onto statement uses</span></code><code><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">   st_-&gt;exchange(<b><font color="#00a0ff">u</font></b>);</span></code><code><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;"> }</span></code><code><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">};</span></code></pre>
+</div>
+
+
+</section>
+<section>
+<h2>anatomy of <font color="#ff3800">into</font>
+</h2>
+
+<div class="fragment" data-fragment-index="0">
+<pre><code><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);">sql</b><span style="font-size: 32px; font-family: monospace;"> </span><font color="#28ff00" style="font-size: 32px; font-style: inherit; font-variant: inherit;"><b>&lt;&lt;</b></font><span style="font-size: 32px; font-family: monospace;"> "SELECT <b><font color="#ffffff">name </font></b>FROM p", <font color="#ff3800"><b>into</b></font>(<font color="#007aff"><b>name</b></font>);</span><br></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><b><font color="#fffefc">into_type_ptr</font></b> <b><font color="#ff3800">into</font></b>(T&amp; <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b>) {</font></code><code><font style="font-size: 32px;"> return <font color="#0089ff"><b>do_into</b></font>(</font><b style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px; color: rgb(0, 122, 255);">t</b><font style="font-style: inherit; font-variant: inherit; font-size: 32px;">, </font><span style="font-family: monospace; font-size: 32px;">typename&nbsp;</span></code><code><span style="font-size: 32px; font-family: monospace;">   <b><font color="#fff700">exchange_traits</font></b>&lt;T&gt;::type_family());</span></code><code><font style="font-size: 32px;">}</font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc"><b>into_type_ptr</b> </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 137, 255);">do_into</b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#fff700"><b>basic_type_tag</b></font><span style="font-family: monospace;">) {</span></font></code><code><font style="font-size: 32px;"> return <font color="#ff3800"><b>into_type_ptr</b></font>(</font><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">new <b><font color="#fff700">into_type</font></b>&lt;T&gt;(</font><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">));</font></code><code><font style="font-size: 32px;">}</font></code></pre>
+</div>
+</section>
+<section>
+    <h2>anatomy of <font color="#ff2800">INTO_TYPE</font>
+</h2>
+<div>
+<pre><code><font style="font-size: 32px;">class <font color="#ff2800"><b>into_type</b></font> {</font></code><code><font style="font-size: 32px;">  // statement backend define_by_pos</font></code><code><span style="font-size: 32px;">  void <font color="#00a8ff"><b>define</b></font>(statement* s, int&amp; position);</span></code><code><span style="font-size: 32px;"><br></span></code><code><span style="font-size: 32px;">  // convert data to exchange type</span></code><code><span style="font-size: 32px;">  void <b><font color="#00a8ff">post_fetch</font></b>();</span></code><code><span style="font-size: 32px;">  </span></code><code><font style="font-size: 32px;">  <font color="#fff700"><b>void*</b></font> <font color="#30ff00"><b>data_</b></font>;</font></code><code><font style="font-size: 32px;">  <b><font color="#fff700">indicator*</font></b> <b><font color="#30ff00">ind_</font></b>;</font></code><code><font style="font-size: 32px;"><font color="#fff700">  <b>exchange_type</b></font> <b><font color="#30ff00">type_</font></b>;</font></code><code><font style="font-size: 32px;">};</font></code></pre>
+</div>
+</section>
+<section>
+<h3>machinery of <font color="#ff3800">into</font>
+</h3>
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc">into_type_ptr </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">do_into</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#fff700"><b>basic_type_tag</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc">into_type_ptr </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">do_into</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#19ff00"><b>indicator</b></font>&amp; ind,</font></code><code><font style="font-size: 32px;">                           <font color="#fff700"><b>basic_type_tag</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+
+
+<div class="fragment" data-fragment-index="3">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc">into_type_ptr </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">do_into</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,</font><font color="#fff700" style="font-style: inherit; font-variant: inherit; font-size: 32px;"><b>user_type_tag</b></font><span style="font-family: monospace; font-size: 32px;">);</span></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="4">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc">into_type_ptr </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">do_into</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#19ff00"><b>indicator</b></font>&amp; ind,</font></code><code><font style="font-size: 32px;">                           <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(255, 247, 0);">user_type_tag</b><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+<div class="fragment" data-fragment-index="5">
+<font style="font-size: 32px;">Plus, overloads for <b>vector&lt;T&gt;</b> and <b>vector&lt;indicator&gt;</b>
+</font>
+</div>
+</section>
+<section>
+<h2>anatomy of <font color="#ff3800">use</font>
+</h2>
+
+<div class="fragment" data-fragment-index="0">
+<pre><code><b style="font-size: 32px; font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 48, 0);">sql</b><font color="#28ff00" style="font-size: 32px; font-style: inherit; font-variant: inherit;"><b>&lt;&lt;</b></font><span style="font-size: 32px; font-family: monospace;">"SELECT n</span><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"> </span><span style="font-size: 32px; font-family: monospace;">FROM p WHERE id=<font color="#fff700"><b>:i</b></font>", <font color="#ff3800"><b>use</b></font>(<font color="#007aff"><b>id</b></font>);</span><br></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><b><font color="#fffefc">use_type_ptr</font></b> <b><font color="#ff3800">use</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b>, string name</font><span>)</span><span style="font-family: monospace;"> {</span></font></code><code><font style="font-size: 32px;"><font> return <font color="#0089ff"><b>do_use</b></font>(</font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b><font style="font-style: inherit; font-variant: inherit;">, name, </font><span style="font-family: monospace;">typename&nbsp;</span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   <b><font color="#fff700">exchange_traits</font></b>&lt;T&gt;::type_family());</font></span></code><code><font style="font-size: 32px;">}</font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font><font color="#fffefc"><b>use_type_ptr</b> </font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 137, 255);">do_use</b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font></font><span>, string name</span><span style="font-family: monospace;">, </span><font color="#fff700" style="font-style: inherit; font-variant: inherit;"><b>basic_type_tag</b></font><span style="font-family: monospace;">) {</span></font></code><code><font><font style="font-size: 32px;"> return <font color="#ff3800"><b>use_type_ptr</b></font>(</font></font></code><code><font style="font-size: 32px;"><font><font style="font-style: inherit; font-variant: inherit;">  new <b><font color="#fff700">use_type</font></b>&lt;T&gt;(</font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font><span>, name</span><span style="font-family: monospace;">));</span></font></code><code><font style="font-size: 32px;">}</font></code></pre>
+</div>
+</section>
+<section>
+<h2>anatomy of <font color="#ff2800">use_type</font>
+</h2>
+<div>
+<pre><code><font style="font-size: 32px;">class <font color="#ff2800"><b>use_type</b></font> {</font></code><code><font style="font-size: 32px;">  // statement backend bind_by_pos</font></code><code><span style="font-size: 32px;">  void <font color="#00a8ff"><b>bind</b></font>(statement* s, int&amp; position);</span></code><code><span style="font-size: 32px;"><br></span></code><code><span style="font-size: 32px;">  // convert data to exchange type</span></code><code><span style="font-size: 32px;">  void <b><font color="#00a8ff">pre_use</font></b>();</span></code><code><span style="font-size: 32px;">  </span></code><code><font style="font-size: 32px;">  <font color="#fff700"><b>void*</b></font> <font color="#30ff00"><b>data_</b></font>;</font></code><code><font style="font-size: 32px;">  <b><font color="#fff700">indicator*</font></b> <b><font color="#30ff00">ind_</font></b>;</font></code><code><font style="font-size: 32px;"><font color="#fff700">  <b>exchange_type</b></font> <b><font color="#30ff00">type_</font></b>;</font></code><code><font style="font-size: 32px;"><font color="#fff700">  <b>string</b></font><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"> </span><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#30ff00">name_</font></b><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;">;</span><br></font></code><code><font style="font-size: 32px;">};</font></code></pre>
+</div>
+</section>
+<section>
+<h3>machinery of <font color="#ff3800">use</font>
+</h3>
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font color="#fffefc">use_type_ptr </font><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3800">do_use</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>, string name, <font color="#fff700"><b>basic_type_tag</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font><span style="color: rgb(255, 254, 252);">use_type_ptr</span><font color="#fffefc"> </font><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#ff3800">do_use</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#19ff00"><b>indicator</b></font>&amp; ind, </font><span>string name, </span><font color="#fff700" style="font-style: inherit; font-variant: inherit;"><b>basic_type_tag</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+
+
+<div class="fragment" data-fragment-index="3">
+<pre><code><font style="font-size: 32px;">template &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font><span style="color: rgb(255, 254, 252);">use_type_ptr</span><font color="#fffefc"> </font><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3800">do_use</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,</font><span>string name, </span><font color="#fff700" style="font-style: inherit; font-variant: inherit;"><b>user_type_tag</b></font><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="4">
+<pre><code><font style="font-size: 32px;">t</font><font style="font-size: 32px;">emplate &lt;typename T&gt;
+</font></code><code><font style="font-size: 32px;"><font><font><span style="color: rgb(255, 254, 252);">use_type_ptr</span><font color="#fffefc"> </font><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3800">do_use</font></b>(T&amp; <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 122, 255);">t</b></font>,<font color="#19ff00"><b>indicator</b></font>&amp; ind, </font><span>string name, </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(255, 247, 0);">user_type_tag</b><span style="font-family: monospace;">);</span></font></code></pre>
+</div>
+<div class="fragment" data-fragment-index="5">
+<font style="font-size: 32px;">Plus, overloads for <b>vector&lt;T&gt;</b> and <b>vector&lt;indicator&gt;</b>
+</font>
+</div>
+</section>
+<section>
+    <h2>
+<font color="#ff3800">static</font> types for&nbsp;<span style="font-size: 75.96px;">
+    <font color="#ff3000">INTO</font> AND <font color="#ff3000">USE</font>
+</span>
+</h2>
+<div>
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">Predefined <font color="#ff3000">exchange_traits</font>&lt;<font color="#ff3000">T</font>&gt; for</span>
+</div>
+<div>
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">basic C++ types:</span>
+<span style="font-size: 75.96px;">
+    <font color="#ff3000">
+        <br>
+    </font>
+</span>
+</div>
+<div>
+<span style="font-size: 54px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+<p>
+</p>
+<ul>
+<li>
+<span style="text-align: center;">
+<font style="font-size: 54px;">char, char*, char[], std::string</font>
+</span>
+<br>
+</li>
+<li>
+<span style="text-align: center;">
+    <font style="font-size: 54px;">(unsigned) short, int, long long</font>
+</span>
+</li>
+<li>
+<span style="text-align: center;">
+    <font style="font-size: 54px;">double</font>
+</span>
+</li>
+<li>
+<span style="text-align: center;">
+    <font style="font-size: 54px;">std::tm</font>
+</span>
+</li>
+<li>
+<span style="text-align: center;">
+    <font style="font-size: 54px;">std::vector&lt;T&gt; for T as above</font>
+</span>
+</li>
+</ul>
+</section>
+<section>
+<h2>Binding <font color="#ff3000">dynamic</font>&nbsp;result set</h2>
+<div class="fragment" data-fragment-index="0">
+<pre><code><font style="font-size: 32px;"><b><font color="#ff3000">row</font></b> <b><font color="#0099ff">r</font></b>;</font></code><code><font style="font-size: 32px;">sql <font color="#30ff00"><b>&lt;&lt;</b></font> "SELECT name,age FROM p", <b><font color="#ff3800">into</font></b>(<b><font color="#0099ff">r</font></b>);</font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="1">
+<pre><code><font style="font-size: 32px;">for (size_t i=0; i&lt;<font color="#0089ff"><b>r.size</b></font>(); ++i)
+{
+ <b><font color="#ff3800">column_properties</font></b>&amp; <b><font color="#ffff00">c</font></b> = <b><font color="#0089ff">r.get_properties</font></b>();</font></code><code><font style="font-size: 32px;">
+ if (<b><font color="#ffff00">c.get_data_type</font></b>() == dt_string)
+   string name = <font color="#0089ff"><b>r.get&lt;string&gt;</b></font>(i);
+ else if (<font color="#ffff00"><b>c.get_data_type</b></font>() == dt_integer)
+   int age = <b><font color="#0089ff">r.get&lt;int&gt;</font></b>(i);
+}</font></code></pre>
+</div>
+
+<div class="fragment" data-fragment-index="2">
+<pre><code><font style="font-size: 32px;"><font><span style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;">string name; int age;</span><b><font color="#0099ff"><br></font></b></font></font></code><code><font style="font-size: 32px;"><font><b><font color="#0099ff">r</font></b> </font><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(48, 255, 0);">&gt;&gt;</b><span> name&nbsp;</span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(48, 255, 0);">&gt;&gt;</b><span> age;</span></font></code></pre>
+</div>
+</section>
+<section>
+    <h2>AVAILABLE (LIMITED)&nbsp;<font color="#ff3800">dt_*</font> mappingS</h2>
+<h3>SOCI <b>
+    <font color="#ff3800">Base Types</font>
+</b>
+</h3>
+<p>
+</p>
+<ul>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">dt_string</span>
+</font>
+</li>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">dt_integer</span>
+</font>
+</li>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">
+        <span style="font-size: 42px; font-style: normal; font-variant: normal;">dt_long_long</span>
+        <br>
+    </span>
+</font>
+</li>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">dt_unsigned_long_long</span>
+</font>
+</li>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">dt_double</span>
+</font>
+</li>
+<li>
+<font style="font-size: 42px;">
+    <span style="text-align: center;">dt_date</span>
+</font>
+</li>
+</ul>
+</section>
+<section>
+<h3>
+<font color="#ff3800">user-defined</font> types support</h3>
+    
+<pre><code><font style="font-size: 32px;">template&lt;&gt; struct <b><font color="#ff3800">type_conversion</font></b>&lt;<font color="#ffff00"><b>MyX</b></font>&gt; {</font></code><code><span style="font-size: 32px; font-family: monospace;"><br></span></code><code><span style="font-size: 32px; font-family: monospace;">typedef <font color="#ff3000"><b>string</b></font> </span><b style="font-size: 32px; font-family: monospace;"><font color="#28ff00">base_type</font></b><span style="font-size: 32px; font-family: monospace;">;</span><br></code><code><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">void <b><font color="#28ff00">from_base</font></b>(<b><font color="#ff3000">string </font></b><font color="#00b7ff"><b>s</b></font>,</font><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">indicator i,</font><span style="font-size: 32px; font-family: monospace;"><b><font color="#ffff00">MyX</font></b>&amp; <b><font color="#00b7ff">x</font></b>){</span><br></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   if (i == i_null) { ... }</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   <font color="#00b7ff" style="font-weight: bold;">x</font><font color="#fdfdfd"><b>.from_string</b>(</font></font></span><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">s</b><span style="font-family: monospace;"><font style="font-size: 32px;"><font color="#fdfdfd">); // convert</font></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">}</font></span></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;"><br></font></font></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;">void <b><font color="#28ff00">to_base</font></b>(<b><font color="#ffff00">MyX</font></b> <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#00b7ff">x</font></b>,<b><font color="#ff3000">string</font></b>&amp; <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">s</b>,</font><font style="font-style: inherit; font-variant: inherit;">indicator&amp; i</font><span style="font-family: monospace;">){</span></font></code><code><font style="font-size: 32px;">   <span style="font-family: monospace; font-size: 20px; font-style: normal; font-variant: normal;"><font style="font-size: 32px;"><font color="#00b7ff" style="font-weight: bold;">s</font><font color="#fdfdfd"><b> =&nbsp;</b></font></font></span></font><font color="#00b7ff" style="font-style: inherit; font-variant: inherit; font-size: 32px; font-weight: bold;">x</font><font color="#fdfdfd" style="font-style: inherit; font-variant: inherit; font-size: 32px;"><b>.to</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 20px;"><font style="font-size: 32px;"><font color="#fdfdfd"><b>_string</b>(</font></font></span><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 20px;"><font style="font-size: 32px;"><font color="#fdfdfd">);</font></font></span><span style="font-size: 32px; font-family: monospace;">// convert</span></code><code><font style="font-size: 32px;"><span>   i = i_ok;</span></font></code><code><font style="font-size: 32px;"><span> }</span></font></code><code><span style="font-size: 32px; font-family: monospace;">};</span><br></code></pre>
+</section>
+<section>
+    <h2>
+<font color="#ff3000">object-relational</font> mapping</h2>
+<div class="fragment" data-fragment-index="0">
+<h3>
+<span style="font-size: 55.8px;">database table</span>
+<br>
+</h3>
+<pre><code><font style="font-size: 32px;">CREATE TABLE person (</font></code><code><font style="font-size: 32px;">  name VARCHAR(60),</font></code><code><font style="font-size: 32px;">  age INT</font></code><code><font style="font-size: 32px;">)</font></code></pre>
+</div>
+<div class="fragment" data-fragment-index="1">
+<h3>c++ type</h3>
+<pre><code><font style="font-size: 32px;">struct Person {&nbsp;</font></code><code><font style="font-size: 32px;">  string name;</font></code><code><font style="font-size: 32px;">  int age;</font></code><code><font style="font-size: 32px;">};</font></code></pre>
+</div>
+</section>
+<section>
+<h3>MAP <font color="#ff3000">soci::values</font> via conversion</h3>
+<pre><code><font style="font-size: 32px;">template&lt;&gt; struct <b><font color="#ff3800">type_conversion</font></b>&lt;<font color="#ffff00"><b>Person</b></font>&gt;{</font></code><code><font style="font-size: 32px;"><span style="font-family: monospace;">typedef <font color="#ff3000"><b>values</b></font> </span><b style="font-family: monospace;"><font color="#28ff00">base_type</font></b><span style="font-family: monospace;">;</span><br></font></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;"><b><font color="#28ff00">from_base</font></b>(<b><font color="#ff3000">values </font></b><font color="#00b7ff"><b>v</b></font>,</font><font style="font-style: inherit; font-variant: inherit;">indicator i,</font><span style="font-family: monospace;"><b><font color="#ffff00">Person</font></b>&amp; <b><font color="#00b7ff">p</font></b>){</span><br></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace;"><font><font>  </font><font color="#00b7ff" style="font-weight: bold;">p</font><font color="#fdfdfd"><b>.name </b></font></font></span><span style="color: rgb(253, 253, 253); font-family: monospace; font-style: normal; font-variant: normal;">= </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">v</b><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);"><b>.get</b>&lt;<b>string</b>&gt;(</span><span style="color: rgb(253, 253, 253);">);</span></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace; font-style: normal; font-variant: normal;"><font><font color="#00b7ff" style="font-weight: bold;">  p</font><font color="#fdfdfd"><b>.age </b></font></font></span><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">= </span><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">v</b><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">.get</b><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">&lt;</span><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);"><b>int</b>&gt;(</span><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">);</span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">}</font></span></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;"><font style="font-style: inherit; font-variant: inherit;"><b><font color="#28ff00">to_base</font></b>(<b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ffff00">Person </font></b><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#00b7ff">p</font></b>,</font><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3000">values</font></b></font><span style="font-family: monospace;">&amp;</span><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3000"> </font></b><font color="#00b7ff" style="font-style: inherit; font-variant: inherit;"><b>v</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal;">,</span><font style="font-style: inherit; font-variant: inherit;">indicator&amp; i</font><span style="font-family: monospace;">){</span><br></font></code><code><font style="font-size: 32px;"><font><font>   <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">v</b><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">.set</b><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">("name",&nbsp;</span></font></font><font color="#00b7ff" style="font-style: inherit; font-variant: inherit; font-weight: bold;">p</font><font color="#fdfdfd" style="font-style: inherit; font-variant: inherit;"><b>.name</b>);</font></font></code><code><font style="font-size: 32px;"><font><font>   <b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">v</b><b style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">.set</b><span style="font-family: monospace; font-style: normal; font-variant: normal; color: rgb(253, 253, 253);">("age",&nbsp;</span></font></font><font color="#00b7ff" style="font-style: inherit; font-variant: inherit; font-weight: bold;">p</font><font color="#fdfdfd" style="font-style: inherit; font-variant: inherit;"><b>.age</b>);</font><font color="#fdfdfd" style="font-style: inherit; font-variant: inherit;"><b><br></b></font></font></code><code><font style="font-size: 32px;"><span>   i = i_ok;</span></font></code><code><font style="font-size: 32px;"><span>}</span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">};</font></span><br></code></pre>
+</section>
+<section>
+<pre><code><font style="font-size: 32px;">template&lt;&gt; struct <b><font color="#ff3800">type_conversion</font></b>&lt;<font color="#ffff00"><b>MyX</b></font>&gt; {</font></code><code><span style="font-size: 32px; font-family: monospace;"><br></span></code><code><span style="font-size: 32px; font-family: monospace;">typedef <font color="#ff3000"><b>string</b></font> </span><b style="font-size: 32px; font-family: monospace;"><font color="#28ff00">base_type</font></b><span style="font-size: 32px; font-family: monospace;">;</span><br></code><code><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">void <b><font color="#28ff00">from_base</font></b>(<b><font color="#ff3000">string </font></b><font color="#00b7ff"><b>s</b></font>,</font><font style="font-size: 32px; font-style: inherit; font-variant: inherit;">indicator i,</font><span style="font-size: 32px; font-family: monospace;"><b><font color="#ffff00">MyX</font></b>&amp; <b><font color="#00b7ff">x</font></b>){</span><br></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   if (i == i_null) { ... }</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">   <font color="#00b7ff" style="font-weight: bold;">x</font><font color="#fdfdfd"><b>.from_string</b>(</font></font></span><b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">s</b><span style="font-family: monospace;"><font style="font-size: 32px;"><font color="#fdfdfd">); // convert</font></font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">}</font></span></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;"><br></font></font></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;">void <b><font color="#28ff00">to_base</font></b>(<b><font color="#ffff00">MyX</font></b> <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal;"><font color="#00b7ff">x</font></b>,<b><font color="#ff3000">string</font></b>&amp; <b style="font-family: monospace; font-size: 32px; font-style: normal; font-variant: normal; color: rgb(0, 183, 255);">s</b>,</font><font style="font-style: inherit; font-variant: inherit;">indicator&amp; i</font><span style="font-family: monospace;">){</span></font></code><code><font style="font-size: 32px;">   <span style="font-family: monospace; font-size: 20px; font-style: normal; font-variant: normal;"><font style="font-size: 32px;"><font color="#00b7ff" style="font-weight: bold;">s</font><font color="#fdfdfd"><b> =&nbsp;</b></font></font></span></font><font color="#00b7ff" style="font-style: inherit; font-variant: inherit; font-size: 32px; font-weight: bold;">x</font><font color="#fdfdfd" style="font-style: inherit; font-variant: inherit; font-size: 32px;"><b>.to</b></font><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 20px;"><font style="font-size: 32px;"><font color="#fdfdfd"><b>_string</b>(</font></font></span><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 20px;"><font style="font-size: 32px;"><font color="#fdfdfd">);</font></font></span><span style="font-size: 32px; font-family: monospace;">// convert</span></code><code><font style="font-size: 32px;"><span>   i = i_ok;</span></font></code><code><font style="font-size: 32px;"><span> }</span></font></code><code><span style="font-size: 32px; font-family: monospace;">};</span><br></code></pre>
+
+</section>
+</section>
+<section>
+    <section>
+        <h2>THERE IS <font color="#ff3800">MORE</font>
+</h2>
+<p>Prepared statements and repeated execution</p>
+<p>
+</p>
+<pre><code><font style="font-size: 32px;">int <font color="#00bfff"><b>i</b></font>;</font></code><code><span style="font-size: 32px; font-family: monospace;"><b><font color="#ff3800">statement</font></b> st = (</span><font style="font-style: inherit; font-variant: inherit; font-size: 32px;"><font>sql.<font color="#ff3800"><b>prepare</b></font></font></font></code><code><font style="font-style: inherit; font-variant: inherit; font-size: 32px;"><font>  <b><font color="#30ff00">&lt;&lt;</font></b>&nbsp;</font></font><span style="font-family: monospace; font-style: normal; font-variant: normal; font-size: 32px;">"INSERT INTO n(v) VALUES(:v)"</span><span style="font-family: monospace; font-size: 32px;">,</span></code><code><span style="font-family: monospace; font-size: 32px;">  <b style="color: rgb(255, 48, 0);">use</b>(<b><font color="#00bfff">i</font></b>)</span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">);</font></span></code><code><span style="font-family: monospace;"><font style="font-size: 32px;"><br></font></span></code><code><font style="font-size: 32px;">for (<b><font color="#00bfff">i</font></b> = 0 i &lt; 100; ++i)</font></code><code><font style="font-size: 32px;">{</font></code><code><font style="font-size: 32px;">  st.<font color="#ff3800"><b>execute</b></font>(true);</font></code><code><font style="font-size: 32px;">}</font></code>    </pre>
+</section>
+    <section>
+<h2>
+<font color="#ff3800">soci::rowset</font> for SELECT QUERIES</h2>
+<p>statement wrapper with STL-like iterator interface</p>
+<p>
+</p>
+<pre><code><font style="font-size: 32px;"><span style="font-family: monospace;"><b><font color="#ff3800">rowset</font></b></span><span style="font-family: monospace;">&lt;</span><b style="font-family: monospace; font-style: normal; font-variant: normal;"><font color="#ff3800">row</font></b><span style="font-family: monospace;">&gt;</span><span style="font-family: monospace;"> rs = (</span><font style="font-style: inherit; font-variant: inherit;"><font>sql.<font color="#ff3800"><b>prepare</b></font></font></font><br></font></code><code><font style="font-size: 32px;"><font style="font-style: inherit; font-variant: inherit;"><font><font color="#ff3800"><b>  </b></font>&lt;&lt;&nbsp;</font></font><span style="font-family: monospace; font-style: normal; font-variant: normal;">"SELECT name,age FROM person"</span><span style="font-family: monospace;">);</span></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace;"><br></span></font></code><code><span style="font-family: monospace;"><font style="font-size: 32px;">for (auto it=<b><font color="#30ff00">rs.begin</font></b>(); it!=<font color="#30ff00"><b>rs.end</b></font>(); ++it)</font></span></code><code><font style="font-size: 32px;"><span style="font-family: monospace;">{</span><br></font></code><code><font style="font-size: 32px;"><span style="font-family: monospace;">  // dynamic data extraction from each row</span></font></code><code><font style="font-size: 32px;">  cout &lt;&lt; "name: " &lt;&lt; it-&gt;get&lt;string&gt;(0)</font></code><code><font style="font-size: 32px;"><font>       </font><span>&lt;&lt; ",age: " &lt;&lt; it-&gt;get&lt;int&gt;(1)</span></font></code><code><font style="font-size: 32px;"><span>       &lt;&lt; endl;</span></font></code><code><font style="font-size: 32px;">}</font></code>    </pre>
+<p>
+</p>
+</section>
+<section>
+    <h2>THERE is EVEN <font color="#ff3800">more</font>
+</h2>
+<div class="fragment" data-fragment-index="0">
+    <span style="font-style: normal; font-variant: normal;">
+        <font style="font-size: 42px;">Bulk operations</font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="1">
+    <span style="font-style: normal; font-variant: normal;">
+        <font style="font-size: 42px;">Transactions interface</font>
+    </span>
+</div>
+<div class="fragment" data-fragment-index="2">
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 42px;">Stored procedures support</font>
+</span>
+</div>
+<div class="fragment" data-fragment-index="3">
+    <font style="font-size: 42px;">
+        <span style="font-style: normal; font-variant: normal;">Binary large objects (BLOB) API</span>&nbsp;</font>
+</div>
+<div class="fragment" data-fragment-index="4">
+    <span style="font-style: normal; font-variant: normal;">
+        <font style="font-size: 42px;">Query string transformation</font>
+    </span>
+</div>
+<p>
+<br>
+</p>
+<div class="fragment" data-fragment-index="5">
+    <span style="font-style: normal; font-variant: normal;">
+        <font style="font-size: 42px;">Integration with <a href="http://www.boost.org/">Boost</a>
+</font>&nbsp;&nbsp;</span>
+<span style="font-style: normal; font-variant: normal;">
+    <font style="font-size: 42px;">libraries:</font>
+    </span>
+<span style="font-style: normal; font-variant: normal;">
+<font style="font-size: 42px;">optional, tuple,&nbsp;</font>
+</span>
+<span style="font-size: 42px;">fusion::vector, gregorian::date</span>
+</div>
+
+</section>
+</section>
+<section>
+    <h1>
+<span style="font-size: 135.72px;">Thank you!</span>
+</h1>
+<div>
+    <font style="font-size: 42px;">
+        <br>
+    </font>
+</div>
+<div>
+<font style="font-size: 42px;">SOCI project website at</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <a href="http://soci.sourceforge.net">http://soci.sourceforge.net</a>
+    <br>
+</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <br>
+</font>
+</div>
+<div>
+<font style="font-size: 42px;">SOCI git repository, bug tracker and wiki at</font>
+</div>
+<div>
+<font style="font-size: 42px;">
+    <a href="https://github.com/SOCI/">https://github.com/SOCI/</a>
+    <br>
+</font>
+</div>
+<div>
+<br>
+</div>
+<div>
+<font style="font-size: 32px;">SOCI talk slides at&nbsp;<a href="http://slid.es/mloskot/soci/">http://slid.es/mloskot/soci/</a>
+</font>
+</div>
+<div>
+<span style="font-size: 23.988317489624023px; font-style: normal; font-variant: normal;">
+    <br>
+</span>
+</div>
+<div>
+<span style="font-size: 23.988317489624023px; font-style: normal; font-variant: normal;">Slides licensed under the&nbsp;</span>
+<a href="http://creativecommons.org/licenses/by/2.5/" style="font-size: 23.988317489624023px; font-style: normal; font-variant: normal;">Creative Commons Attribution License</a>
+<br>
+</div>
+</section>
+</div>
+
